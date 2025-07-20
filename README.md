@@ -7,7 +7,7 @@ This project contains an [ESPHome](https://esphome.io/) configuration file that 
 
 Follow the **step-by-step tutorial** to build the complete device (hardware + software + 3D printed case ):
 
- [Full Tutorial](http://localhost:1313/posts/tutos/photoframe-epaper-dashboard/) 
+ [Full Tutorial](https://tech-my-mind.com/posts/tutos/photoframe-epaper-dashboard/) 
 
 ---
 
