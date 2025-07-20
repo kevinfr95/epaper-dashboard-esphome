@@ -1,0 +1,381 @@
+esphome:
+  name: esphome-web-device
+  friendly_name: LivingRoomScreen
+  min_version: 2025.5.0
+  name_add_mac_suffix: false
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+# OTA update
+ota:
+  - platform: esphome
+    password: "REDACTED"
+
+# WiFi configuration
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Fallback Hotspot"
+    password: "REDACTED"
+
+# Captive portal for fallback
+captive_portal:
+
+# SPI bus config (for ePaper)
+spi:
+  clk_pin: 13
+  mosi_pin: 14
+
+# Deep sleep to save battery
+deep_sleep:
+  run_duration: 60s
+  sleep_duration: 60min
+
+# Fonts
+font:
+  - file: "fonts/segoeui.ttf"
+    id: segoe_large
+    size: 50
+    glyphs: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?.,:;'\"+-=_/\\@$%° "
+  - file: "fonts/segoeui.ttf"
+    id: segoe_medium
+    size: 32
+    glyphs: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?.,:;'\"+-=_/\\@$%° "
+  - file: "fonts/segoeui.ttf"
+    id: segoe_small
+    glyphs: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?.,:;'\"+-=_/\\@$%° "
+  - file: "fonts/segoeui.ttf"
+    id: segoe_xs
+    size: 10
+    glyphs: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!?.,:;'\"+-=_/\\@$%° "
+  - file: "fonts/materialdesignicons-webfont.ttf"
+    id: mdi
+    size: 32
+    glyphs:
+      - "\U000F0826" # home-account
+      - "\U000F087B" # home-alert
+      - "\U000F15D0" # home-alert-outline
+      - "\U000F0EBA" # home-analytics
+      - "\U000F07D0" # home-assistant
+      - "\U000F07D1" # home-automation
+      - "\U000F1901" # home-battery
+      - "\U000F1902" # home-battery-outline
+      - "\U000F07D2" # home-circle
+      - "\U000F104D" # home-circle-outline
+      - "\U000F0D15" # home-city
+      - "\U000F0D16" # home-city-outline
+      - "\U000F1A12" # home-clock
+      - "\U000F1A13" # home-clock-outline
+      - "\U000F1159" # home-edit
+      - "\U000F115A" # home-edit-outline
+      - "\U000F0F9B" # home-export-outline
+      - "\U000F0EFA" # home-flood
+      - "\U000F0DD2" # home-floor-0
+      - "\U000F0D80" # home-floor-1
+      - "\U000F0D81" # home-floor-2
+      - "\U000F0D82" # home-floor-3
+      - "\U000F0D83" # home-floor-a
+      - "\U000F0D84" # home-floor-b
+      - "\U000F0D85" # home-floor-g
+      - "\U000F0D86" # home-floor-l
+      - "\U000F0DD3" # home-floor-negative-1
+      - "\U000F0DD4" # home-group
+      - "\U000F19C1" # home-group-minus
+      - "\U000F19C0" # home-group-plus
+      - "\U000F19C2" # home-group-remove
+      - "\U000F0827" # home-heart
+      - "\U000F0F9C" # home-import-outline
+      - "\U000F1251" # home-lightbulb
+      - "\U000F1252" # home-lightbulb-outline
+      - "\U000F1903" # home-lightning-bolt
+      - "\U000F1904" # home-lightning-bolt-outline
+      - "\U000F08EB" # home-lock
+      - "\U000F08EC" # home-lock-open
+      - "\U000F05F8" # home-map-marker
+      - "\U000F0974" # home-minus
+      - "\U000F13D5" # home-minus-outline
+      - "\U000F02DD" # home-modern
+      - "\U000F1A46" # home-off
+      - "\U000F1A47" # home-off-outline
+      - "\U000F06A1" # home-outline
+      - "\U000F1C7C" # home-percent
+      - "\U000F1C7D" # home-percent-outline
+      - "\U000F0975" # home-plus
+      - "\U000F13D6" # home-plus-outline
+      - "\U000F1247" # home-remove
+      - "\U000F13D7" # home-remove-outline
+      - "\U000F112B" # home-roof
+      - "\U000F13B0" # home-search
+      - "\U000F13B1" # home-search-outline
+      - "\U000F1BA0" # home-silo
+      - "\U000F1BA1" # home-silo-outline
+      - "\U000F1C2F" # home-sound-in
+      - "\U000F1C30" # home-sound-in-outline
+      - "\U000F1C31" # home-sound-out
+      - "\U000F1C32" # home-sound-out-outline
+      - "\U000F1794" # home-switch
+      - "\U000F1795" # home-switch-outline
+      - "\U000F0F54" # home-thermometer
+      - "\U000F0F55" # home-thermometer-outline
+      - "\U000F02DE" # home-variant
+      - "\U000F0BA7" # home-variant-outline
+      - "\U000F140B" # lightning-bolt
+      - "\U000F0820" # lightning-bolt-circle
+      - "\U000F140C" # lightning-bolt-outline
+      - "\U000F058C" # water
+      - "\U000F05F1" # ev-station
+      - "\U000F00ED" # calendar
+      - "\U000F0130" # checkbox-blank-circle-outline
+      - "\U000F0590" # weather-cloudy
+      - "\U000F0F2F" # weather-cloudy-alert
+      - "\U000F0E6E" # weather-cloudy-arrow-right
+      - "\U000F18F6" # weather-cloudy-clock
+      - "\U000F1B5A" # weather-dust
+      - "\U000F0591" # weather-fog
+      - "\U000F0592" # weather-hail
+      - "\U000F0F30" # weather-hazy
+      - "\U000F0898" # weather-hurricane
+      - "\U000F1C78" # weather-hurricane-outline
+      - "\U000F0593" # weather-lightning
+      - "\U000F067E" # weather-lightning-rainy
+      - "\U000F1D15" # weather-moonset
+      - "\U000F1D16" # weather-moonset-down
+      - "\U000F1D17" # weather-moonset-up
+      - "\U000F0594" # weather-night
+      - "\U000F0F31" # weather-night-partly-cloudy
+      - "\U000F0595" # weather-partly-cloudy
+      - "\U000F0F32" # weather-partly-lightning
+      - "\U000F0F33" # weather-partly-rainy
+      - "\U000F0F34" # weather-partly-snowy
+      - "\U000F0F35" # weather-partly-snowy-rainy
+      - "\U000F0596" # weather-pouring
+      - "\U000F0597" # weather-rainy
+      - "\U000F0598" # weather-snowy
+      - "\U000F0F36" # weather-snowy-heavy
+      - "\U000F067F" # weather-snowy-rainy
+      - "\U000F0599" # weather-sunny
+      - "\U000F0F37" # weather-sunny-alert
+      - "\U000F14E4" # weather-sunny-off
+      - "\U000F059A" # weather-sunset
+      - "\U000F059B" # weather-sunset-down
+      - "\U000F059C" # weather-sunset-up
+      - "\U000F0F38" # weather-tornado
+      - "\U000F059D" # weather-windy
+      - "\U000F059E" # weather-windy-variant
+      - "\U000F15FA" # windsock
+
+# Time from Home Assistant
+time:
+  - platform: homeassistant
+    id: home_time
+
+# Environmental sensors (anonymized IDs)
+sensor:
+  - platform: homeassistant
+    id: temp_room1
+    entity_id: sensor.temp_room1         # Room 1 temperature
+  - platform: homeassistant
+    id: hum_room1
+    entity_id: sensor.hum_room1          # Room 1 humidity
+  - platform: homeassistant
+    id: temp_room2
+    entity_id: sensor.temp_room2         # Room 2 temperature
+  - platform: homeassistant
+    id: hum_room2
+    entity_id: sensor.hum_room2          # Room 2 humidity
+  - platform: homeassistant
+    id: temp_room3
+    entity_id: sensor.temp_room3         # Room 3 temperature
+  - platform: homeassistant
+    id: hum_room3
+    entity_id: sensor.hum_room3          # Room 3 humidity
+  - platform: homeassistant
+    id: temp_room4
+    entity_id: sensor.temp_room4         # Room 4 temperature
+  - platform: homeassistant
+    id: hum_room4
+    entity_id: sensor.hum_room4          # Room 4 humidity
+
+  # Energy usage sensor
+  - platform: homeassistant
+    id: energy_today
+    entity_id: sensor.energy_today       # Daily electricity consumption
+
+  # Weather info from HA
+  - platform: homeassistant
+    id: weather_temp
+    entity_id: weather.local
+    attribute: temperature               # Outdoor temperature
+  - platform: homeassistant
+    id: weather_wind
+    entity_id: weather.local
+    attribute: wind_speed                # Wind speed
+
+  # Battery voltage sensor (via voltage divider)
+  - platform: adc
+    pin: GPIO34
+    name: "Battery Voltage"
+    id: battery_voltage
+    attenuation: 11db
+    update_interval: 60s
+    filters:
+      - multiply: 1.92                   # Voltage divider correction factor
+
+  # Battery percentage (calculated from voltage)
+  - platform: template
+    name: "Battery Level (%)"
+    id: battery_level
+    unit_of_measurement: "%"
+    icon: "mdi:battery"
+    update_interval: 60s
+    lambda: |-
+      float v = id(battery_voltage).state;
+      return (v < 3.2) ? 0 : (v > 4.2) ? 100 : ((v - 3.2) / 1.0) * 100.0;
+
+# Text values from HA (calendar, tasks, EV status, etc.)
+text_sensor:
+  - platform: homeassistant
+    id: ev_status
+    entity_id: sensor.ev_status          # Status of EV charger
+  - platform: homeassistant
+    id: calendar_next_title
+    entity_id: sensor.calendar_next_title
+  - platform: homeassistant
+    id: calendar_next_time
+    entity_id: sensor.calendar_next_time
+  - platform: homeassistant
+    id: task_1
+    entity_id: input_text.task_1
+  - platform: homeassistant
+    id: task_2
+    entity_id: input_text.task_2
+  - platform: homeassistant
+    id: task_3
+    entity_id: input_text.task_3
+  - platform: homeassistant
+    id: weather_condition
+    entity_id: weather.local             # Current weather condition
+
+# Display configuration (Waveshare 7.5" ePaper)
+display:
+  - platform: waveshare_epaper
+    cs_pin: 15
+    dc_pin: 27
+    busy_pin: 25
+    reset_pin: 26
+    model: 7.50inv2
+    rotation: 90°
+    update_interval: 120s
+    lambda: |-
+      int margin_x = 50;
+      int margin_y = 50;
+      int line_height = 40;
+      int table_start_y = 200;
+
+      auto now = id(home_time).now();
+
+      if (now.is_valid()) {
+        const char* days[] = {"", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        const char* months[] = {"", "January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November", "December"};
+
+        int day_of_week = now.day_of_week;
+        int day = now.day_of_month;
+        int month = now.month;
+
+        char date_en[64];
+        snprintf(date_en, sizeof(date_en), "%s %d %s", days[day_of_week], day, months[month]);
+
+        it.printf(margin_x, margin_y, id(segoe_large), TextAlign::TOP_LEFT, "%s", date_en);
+      } else {
+        it.printf(margin_x, margin_y, id(segoe_large), "Invalid Date");
+      }
+
+      it.printf(margin_x, margin_y + 80, id(mdi), TextAlign::TOP_LEFT,
+        "%s",
+        strcmp(id(weather_condition).state.c_str(), "clear-night") == 0 ? "\U000F0594" :
+        strcmp(id(weather_condition).state.c_str(), "cloudy") == 0 ? "\U000F0590" :
+        strcmp(id(weather_condition).state.c_str(), "fog") == 0 ? "\U000F0591" :
+        strcmp(id(weather_condition).state.c_str(), "rainy") == 0 ? "\U000F0597" :
+        strcmp(id(weather_condition).state.c_str(), "sunny") == 0 ? "\U000F0599" :
+        "\U000F0F2F"
+      );
+      it.printf(margin_x + 40, margin_y + 75, id(segoe_medium), TextAlign::TOP_LEFT, "%.1f°C", id(weather_temp).state);
+
+      it.printf(margin_x + 200, margin_y + 80, id(mdi), TextAlign::TOP_LEFT, "\U000F15FA");
+      it.printf(margin_x + 240, margin_y + 75, id(segoe_medium), TextAlign::TOP_LEFT, "%.1f km/h", id(weather_wind).state);
+
+      it.line(0, table_start_y - 25, 800, table_start_y - 25);
+
+      it.print(margin_x, table_start_y, id(mdi), TextAlign::TOP_LEFT, "\U000F02DE");
+      it.print(margin_x + 220, table_start_y, id(mdi), TextAlign::TOP_LEFT, "\U000F0F54");
+      it.print(margin_x + 350, table_start_y, id(mdi), TextAlign::TOP_LEFT, "\U000F058C");
+
+      it.print(margin_x, table_start_y + line_height, id(segoe_small), TextAlign::TOP_LEFT, "Room 1");
+      it.printf(margin_x + 220, table_start_y + line_height, id(segoe_small), "%.1f °C", id(temp_room1).state);
+      it.printf(margin_x + 350, table_start_y + line_height, id(segoe_small), "%.0f %%", id(hum_room1).state);
+
+      it.print(margin_x, table_start_y + 2*line_height, id(segoe_small), TextAlign::TOP_LEFT, "Room 2");
+      it.printf(margin_x + 220, table_start_y + 2*line_height, id(segoe_small), "%.1f °C", id(temp_room2).state);
+      it.printf(margin_x + 350, table_start_y + 2*line_height, id(segoe_small), "%.0f %%", id(hum_room2).state);
+
+      it.print(margin_x, table_start_y + 3*line_height, id(segoe_small), TextAlign::TOP_LEFT, "Room 3");
+      it.printf(margin_x + 220, table_start_y + 3*line_height, id(segoe_small), "%.1f °C", id(temp_room3).state);
+      it.printf(margin_x + 350, table_start_y + 3*line_height, id(segoe_small), "%.0f %%", id(hum_room3).state);
+
+      it.print(margin_x, table_start_y + 4*line_height, id(segoe_small), TextAlign::TOP_LEFT, "Room 4");
+      it.printf(margin_x + 220, table_start_y + 4*line_height, id(segoe_small), "%.1f °C", id(temp_room4).state);
+      it.printf(margin_x + 350, table_start_y + 4*line_height, id(segoe_small), "%.0f %%", id(hum_room4).state);
+
+      it.line(0, 420, 800, 420);
+      it.printf(margin_x, 425, id(mdi), "\U000F140B");
+      it.printf(margin_x + 40, 425, id(segoe_small), "%.1f kWh", id(energy_today).state);
+
+      if (id(ev_status).has_state()) {
+        std::map<std::string, std::string> labels = {
+          {"booting", "Booting"},
+          {"not_connected", "Not connected"},
+          {"connected", "Connected"},
+          {"ready", "Ready"},
+          {"negotiating", "Negotiating"},
+          {"error", "Error"},
+          {"charging_finished", "Finished"},
+          {"waiting_car", "Waiting"},
+          {"charging", "Charging"},
+          {"charging_reduced", "Reduced"}
+        };
+        std::string status = id(ev_status).state;
+        if (labels.count(status)) status = labels[status];
+        it.printf(margin_x + 200, 425, id(mdi), "\U000F05F1");
+        it.printf(margin_x + 240, 425, id(segoe_small), "%s", status.c_str());
+      }
+
+      it.line(0, 460, 800, 460);
+      it.printf(margin_x, 480, id(mdi), "\U000F00ED");
+      it.printf(margin_x + 40, 470, id(segoe_small), "%s", id(calendar_next_title).state.c_str());
+      it.printf(margin_x + 40, 500, id(segoe_small), "%s", id(calendar_next_time).state.c_str());
+
+      it.line(0, 540, 800, 540);
+      if (!id(task_1).state.empty()) {
+        it.printf(margin_x, 560, id(mdi), "\U000F0130");
+        it.printf(margin_x + 40, 560, id(segoe_small), "%s", id(task_1).state.c_str());
+      }
+      if (!id(task_2).state.empty()) {
+        it.printf(margin_x, 560 + line_height, id(mdi), "\U000F0130");
+        it.printf(margin_x + 40, 560 + line_height, id(segoe_small), "%s", id(task_2).state.c_str());
+      }
+      if (!id(task_3).state.empty()) {
+        it.printf(margin_x, 560 + 2*line_height, id(mdi), "\U000F0130");
+        it.printf(margin_x + 40, 560 + 2*line_height, id(segoe_small), "%s", id(task_3).state.c_str());
+      }
